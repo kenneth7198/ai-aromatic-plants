@@ -4,7 +4,9 @@ from tensorflow.keras.optimizers import Adam
 import tensorflow as tf
 import numpy as np
 from tensorflow.keras.regularizers import l2
-from PIL import Image
+from PIL import Image, ImageEnhance
+import io
+import base64
 
 # 初始化 Flask 應用
 app = Flask(__name__)
@@ -60,20 +62,35 @@ class Autoencoder(tf.keras.models.Model):
     def from_config(cls, config):
         return cls()
 
-# 載入模型並使用 custom_objects 引入自訂層
-model = load_model('model\A_model.h5', custom_objects={'Autoencoder': Autoencoder})
+# 載入三個模型並設置優化器
+model_A = load_model('model/A_model.h5', custom_objects={'Autoencoder': Autoencoder})
+model_B = load_model('model/B_model.h5', custom_objects={'Autoencoder': Autoencoder})
+model_C = load_model('model/C_model.h5', custom_objects={'Autoencoder': Autoencoder})
 
 # 使用 Adam 優化器並設置 clipnorm 以防止梯度爆炸
 optimizer = Adam(learning_rate=0.00005, clipnorm=1.0)
-model.compile(optimizer=optimizer, loss='categorical_crossentropy')
+
+model_A.compile(optimizer=optimizer, loss='categorical_crossentropy')
+model_B.compile(optimizer=optimizer, loss='categorical_crossentropy')
+model_C.compile(optimizer=optimizer, loss='categorical_crossentropy')
 
 # 定義影像預處理函數
-def preprocess_image(image, target_size):
+def preprocess_image(image, target_size=(128, 128)):
+    # 調整圖片大小
     image = image.resize(target_size)
-    image = np.array(image)
-    image = np.expand_dims(image, axis=0)
-    image = image / 255.0
-    return image
+    
+    # 確保影像為 RGB 模式
+    image = image.convert("RGB")
+    
+    # 增強亮度
+    enhancer = ImageEnhance.Brightness(image)
+    image = enhancer.enhance(1.5)
+    
+    # 轉換為 numpy 陣列
+    img_array = np.array(image)
+    img_array = np.expand_dims(img_array, axis=0)
+    img_array = img_array / 255.0  # 正規化
+    return img_array
 
 # 設定首頁路由
 @app.route('/')
@@ -92,16 +109,26 @@ def predict():
         return jsonify({'error': 'No file selected'})
 
     # 處理影像並進行預測
-    image = Image.open(file).convert("RGB")
-    processed_image = preprocess_image(image, target_size=(128, 128))
+    image = Image.open(file)
+    processed_image = preprocess_image(image)
 
-    # 獲取模型的兩個輸出
-    decoded_image, classification = model.predict(processed_image)
-    predicted_class = np.argmax(classification, axis=1)[0]
+    # 使用模型 A 進行預測
+    _, classification_A = model_A.predict(processed_image)
+    predicted_class_A = np.argmax(classification_A, axis=1)[0]
 
-    # 返回預測結果
+    # 使用模型 B 進行預測
+    _, classification_B = model_B.predict(processed_image)
+    predicted_class_B = np.argmax(classification_B, axis=1)[0]
+
+    # 使用模型 C 進行預測
+    _, classification_C = model_C.predict(processed_image)
+    predicted_class_C = np.argmax(classification_C, axis=1)[0]
+
+    # 返回三個模型的預測結果
     return jsonify({
-        'classification_prediction': int(predicted_class)
+        'classification_prediction_A': int(predicted_class_A),
+        'classification_prediction_B': int(predicted_class_B),
+        'classification_prediction_C': int(predicted_class_C)
     })
 
 # 運行應用

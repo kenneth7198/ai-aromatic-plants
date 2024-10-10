@@ -5,7 +5,13 @@ const fs = require('fs');
 const FormData = require('form-data');
 
 const app = express();
-const upload = multer({ dest: 'uploads/' });
+
+// 上傳到 public/uploads
+const upload = multer({ dest: 'public/uploads/' });
+
+// 設置靜態文件夾
+app.use(express.static('public'));
+app.use('/uploads', express.static('public/uploads'));
 
 // 主頁顯示表單
 app.get('/', (req, res) => {
@@ -16,57 +22,18 @@ app.get('/', (req, res) => {
       <button type="submit">Upload and Predict</button>
     </form>
     <div id="result"></div>
-    <div id="enhancedImage"></div>
+    <div id="uploadedImage"></div>
     
-    <script>
-      const form = document.getElementById('uploadForm');
-      form.addEventListener('submit', async (event) => {
-        event.preventDefault();
-        
-        const formData = new FormData(form);
-        
-        try {
-          const response = await fetch('/upload', {
-            method: 'POST',
-            body: formData,
-          });
-          
-          if (!response.ok) {
-            const errorText = await response.text();
-            console.error("Server response error:", errorText);
-            document.getElementById('result').innerHTML = 'Prediction failed';
-            return;
-          }
-          
-          const result = await response.json();
-          document.getElementById('result').innerHTML = 'Prediction: ' + result.classification_prediction;
-          
-          // 確認 enhanced_image 存在再顯示
-          if (result.enhanced_image) {
-            const img = document.createElement('img');
-            img.src = 'data:image/jpeg;base64,' + result.enhanced_image;
-            img.alt = 'Enhanced Image';
-            img.style.maxWidth = '100%';
-            const enhancedImageDiv = document.getElementById('enhancedImage');
-            enhancedImageDiv.innerHTML = '';
-            enhancedImageDiv.appendChild(img);
-          } else {
-            console.error("Enhanced image data is missing.");
-            document.getElementById('enhancedImage').innerHTML = 'No enhanced image received';
-          }
-          
-        } catch (error) {
-          console.error("Fetch error:", error);
-          document.getElementById('result').innerHTML = 'Prediction failed: ' + error.message;
-        }
-      });
-    </script>
+    <!-- 引入外部 JavaScript 文件 -->
+    <script src="script.js"></script>
+
   `);
 });
 
 // 接收圖片並轉發至 Flask 應用進行預測
 app.post('/upload', upload.single('image'), async (req, res) => {
   const filePath = req.file.path;
+  console.log("File saved at:", filePath); // 打印文件保存的路徑
 
   try {
     const formData = new FormData();
@@ -79,14 +46,22 @@ app.post('/upload', upload.single('image'), async (req, res) => {
       }
     });
 
-    // 返回 Flask 響應的結果
-    res.json(response.data);
-
+    // 返回 Flask 應用的響應結果和圖片URL到前端
+    res.json({
+      prediction: response.data,
+      imageUrl: `/uploads/${req.file.filename}` // 直接使用 /uploads 路徑
+    });
   } catch (error) {
     console.error('Error:', error.response ? error.response.data : error.message);
-    res.status(500).json('Prediction failed: ' + (error.response ? error.response.data.error : error.message));
+    if (!res.headersSent) {
+      res.status(500).json({ error: 'Prediction failed: ' + (error.response ? error.response.data.error : error.message) });
+    }
   } finally {
-    fs.unlinkSync(filePath); // 刪除臨時文件
+    fs.unlink(filePath, (err) => {
+      if (err) {
+        console.error("Failed to delete temp file:", err);
+      }
+    });
   }
 });
 
