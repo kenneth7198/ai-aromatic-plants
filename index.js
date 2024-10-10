@@ -32,6 +32,14 @@ app.get('/', (req, res) => {
 
 // 接收圖片並轉發至 Flask 應用進行預測
 app.post('/upload', upload.single('image'), async (req, res) => {
+  
+  if (!req.file) {
+    return res.status(400).json({ error: 'No file uploaded' });
+  }
+
+  // 打印文件信息以確認保存路徑
+  console.log("File uploaded to:", req.file.path);
+  
   const filePath = req.file.path;
   console.log("File saved at:", filePath); // 打印文件保存的路徑
 
