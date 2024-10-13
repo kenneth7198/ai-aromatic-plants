@@ -56,30 +56,76 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // 清空結果區域
       resultDiv.innerHTML = ''; // 清除之前的內容
-      
-      const createResultParagraph = (modelName, prediction, descriptions) => {
-        const paragraph = document.createElement('p');
-        const description = descriptions[prediction] || "Unknown prediction";
-        paragraph.textContent = `${modelName}: ${prediction} - ${description}`;
-        return paragraph;
+
+      // 獲取嵌套在 prediction 屬性中的預測數據
+      const predictions = result.prediction;
+
+      // 顯示每個模型的預測結果和百分比
+      const displayModelResults = (modelName, prediction, probabilities, descriptions) => {
+        const container = document.createElement('div');
+        container.classList.add('model-result');
+
+        const header = document.createElement('p');
+        const description = descriptions[prediction] || "未知";
+        header.textContent = `${modelName}: 預測結果為 - 類別標籤： ${prediction} - ${description}`;
+        container.appendChild(header);
+
+        // 創建一個 Canvas 元素來繪製直條圖
+        if (Array.isArray(probabilities) && probabilities.length > 0) {
+          const canvas = document.createElement('canvas');
+          container.appendChild(canvas);
+
+          new Chart(canvas, {
+            type: 'bar',
+            data: {
+              labels: probabilities.map((_, index) => `類別標籤： ${index}`), // 類別標籤
+              datasets: [{
+                label: 'Probability (%)',
+                data: probabilities,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+              }]
+            },
+            options: {
+              scales: {
+                y: {
+                  beginAtZero: true,
+                  max: 100
+                }
+              },
+              plugins: {
+                legend: {
+                  display: false
+                }
+              }
+            }
+          });
+        } else {
+          const noData = document.createElement('p');
+          noData.textContent = '沒有預測的結果';
+          container.appendChild(noData);
+        }
+
+        resultDiv.appendChild(container);
       };
 
-      // 顯示 Model A 的預測結果和說明
-      resultDiv.appendChild(createResultParagraph("Prediction from Model A", result.prediction.classification_prediction_A, descriptionsA));
+      // 顯示 Model A 的預測結果和百分比
+      displayModelResults("預測為 Model A", predictions.classification_prediction_A, predictions.classification_probabilities_A, descriptionsA);
 
-      // 顯示 Model B 的預測結果和說明
-      resultDiv.appendChild(createResultParagraph("Prediction from Model B", result.prediction.classification_prediction_B, descriptionsB));
+      // 顯示 Model B 的預測結果和百分比
+      displayModelResults("預測為 Model B", predictions.classification_prediction_B, predictions.classification_probabilities_B, descriptionsB);
 
-      // 顯示 Model C 的預測結果和說明
-      resultDiv.appendChild(createResultParagraph("Prediction from Model C", result.prediction.classification_prediction_C, descriptionsC));
+      // 顯示 Model C 的預測結果和百分比
+      displayModelResults("預測為 Model C", predictions.classification_prediction_C, predictions.classification_probabilities_C, descriptionsC);
 
       // 顯示上傳的圖片
-      uploadedImageDiv.innerHTML = ''; // 清空之前的圖片
-      const img = document.createElement('img');
-      img.src = result.imageUrl;
-      img.alt = 'Uploaded Image';
-      img.style.maxWidth = '100%';
-      uploadedImageDiv.appendChild(img);
+      // uploadedImageDiv.innerHTML = ''; // 清空之前的圖片
+      // const img = document.createElement('img');
+      // img.src = result.imageUrl;
+      // img.alt = 'Uploaded Image';
+      // img.style.maxWidth = '100%';
+      // uploadedImageDiv.appendChild(img);
       
     } catch (error) {
       console.error("Fetch error:", error);

@@ -115,20 +115,38 @@ def predict():
     # 使用模型 A 進行預測
     _, classification_A = model_A.predict(processed_image)
     predicted_class_A = np.argmax(classification_A, axis=1)[0]
+    probabilities_A = [round(float(prob) * 100, 2) for prob in classification_A[0]]  # 轉換為百分比並保留兩位小數
 
-    # 使用模型 B 進行預測
-    _, classification_B = model_B.predict(processed_image)
-    predicted_class_B = np.argmax(classification_B, axis=1)[0]
+    # 根據模型 A 的預測結果設置 B 和 C 的輸出
+    if predicted_class_A > 0:
+        # 設置模型 B 和 C 的輸出為 -1 並且返回空概率
+        predicted_class_B = -1
+        predicted_class_C = -1
+        probabilities_B = []
+        probabilities_C = []
+    else:
+        # 如果模型 A 的結果不大於 0，則正常使用模型 B 和 C 進行預測
+        _, classification_B = model_B.predict(processed_image)
+        predicted_class_B = np.argmax(classification_B, axis=1)[0]
+        probabilities_B = [round(float(prob) * 100, 2) for prob in classification_B[0]]  # 轉換為百分比並保留兩位小數
 
-    # 使用模型 C 進行預測
-    _, classification_C = model_C.predict(processed_image)
-    predicted_class_C = np.argmax(classification_C, axis=1)[0]
+        _, classification_C = model_C.predict(processed_image)
+        predicted_class_C = np.argmax(classification_C, axis=1)[0]
+        probabilities_C = [round(float(prob) * 100, 2) for prob in classification_C[0]]  # 轉換為百分比並保留兩位小數
 
-    # 返回三個模型的預測結果
+    # 列印模型 A、B、C 的預測結果
+    print(f"Model A Prediction: {predicted_class_A}, Probabilities: {probabilities_A}")
+    print(f"Model B Prediction: {predicted_class_B}, Probabilities: {probabilities_B}")
+    print(f"Model C Prediction: {predicted_class_C}, Probabilities: {probabilities_C}")
+
+    # 返回三個模型的預測結果和各類別百分比分佈
     return jsonify({
         'classification_prediction_A': int(predicted_class_A),
+        'classification_probabilities_A': probabilities_A,
         'classification_prediction_B': int(predicted_class_B),
-        'classification_prediction_C': int(predicted_class_C)
+        'classification_probabilities_B': probabilities_B,
+        'classification_prediction_C': int(predicted_class_C),
+        'classification_probabilities_C': probabilities_C
     })
 
 # 運行應用

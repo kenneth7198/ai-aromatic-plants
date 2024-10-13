@@ -16,10 +16,11 @@ app.use('/uploads', express.static('public/uploads'));
 // 主頁顯示表單
 app.get('/', (req, res) => {
   res.send(`
-    <h1>Upload an Image for Prediction</h1>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <h1>AI香草辨識 - 請上傳圖片進行預測</h1>
     <form id="uploadForm" enctype="multipart/form-data">
       <input type="file" name="image" required>
-      <button type="submit">Upload and Predict</button>
+      <button type="submit">上傳&預測</button>
     </form>
     <div id="result"></div>
     <div id="uploadedImage"></div>
