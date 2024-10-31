@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify, render_template
 from tensorflow.keras.models import load_model
 from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.optimizers import AdamW
 import tensorflow as tf
 import numpy as np
 from tensorflow.keras.regularizers import l2
@@ -63,16 +64,19 @@ class Autoencoder(tf.keras.models.Model):
         return cls()
 
 # 載入三個模型並設置優化器
-model_A = load_model('model/A_model.h5', custom_objects={'Autoencoder': Autoencoder})
-model_B = load_model('model/B_model.h5', custom_objects={'Autoencoder': Autoencoder})
-model_C = load_model('model/C_model.h5', custom_objects={'Autoencoder': Autoencoder})
+model_All = load_model('model/All_model.h5', custom_objects={'Autoencoder': Autoencoder})
+#model_A = load_model('model/A_model.h5', custom_objects={'Autoencoder': Autoencoder})
+#model_B = load_model('model/B_model.h5', custom_objects={'Autoencoder': Autoencoder})
+#model_C = load_model('model/C_model.h5', custom_objects={'Autoencoder': Autoencoder})
 
 # 使用 Adam 優化器並設置 clipnorm 以防止梯度爆炸
-optimizer = Adam(learning_rate=0.00005, clipnorm=1.0)
+optimizer = AdamW(learning_rate=0.00005, weight_decay=1e-6, clipnorm=1.0)
 
-model_A.compile(optimizer=optimizer, loss='categorical_crossentropy')
-model_B.compile(optimizer=optimizer, loss='categorical_crossentropy')
-model_C.compile(optimizer=optimizer, loss='categorical_crossentropy')
+model_All.compile(optimizer=optimizer, loss='categorical_crossentropy')
+
+#model_A.compile(optimizer=optimizer, loss='categorical_crossentropy')
+#model_B.compile(optimizer=optimizer, loss='categorical_crossentropy')
+#model_C.compile(optimizer=optimizer, loss='categorical_crossentropy')
 
 # 定義影像預處理函數
 def preprocess_image(image, target_size=(128, 128)):
@@ -112,41 +116,18 @@ def predict():
     image = Image.open(file)
     processed_image = preprocess_image(image)
 
-    # 使用模型 A 進行預測
-    _, classification_A = model_A.predict(processed_image)
-    predicted_class_A = np.argmax(classification_A, axis=1)[0]
-    probabilities_A = [round(float(prob) * 100, 2) for prob in classification_A[0]]  # 轉換為百分比並保留兩位小數
+    # 使用 All_model 進行預測
+    _, classification_All = model_All.predict(processed_image)
+    predicted_class_All = np.argmax(classification_All, axis=1)[0]
+    probabilities_All = [round(float(prob) * 100, 2) for prob in classification_All[0]]  # 轉換為百分比並保留兩位小數
 
-    # 根據模型 A 的預測結果設置 B 和 C 的輸出
-    if predicted_class_A > 0:
-        # 設置模型 B 和 C 的輸出為 -1 並且返回空概率
-        predicted_class_B = -1
-        predicted_class_C = -1
-        probabilities_B = []
-        probabilities_C = []
-    else:
-        # 如果模型 A 的結果不大於 0，則正常使用模型 B 和 C 進行預測
-        _, classification_B = model_B.predict(processed_image)
-        predicted_class_B = np.argmax(classification_B, axis=1)[0]
-        probabilities_B = [round(float(prob) * 100, 2) for prob in classification_B[0]]  # 轉換為百分比並保留兩位小數
+    # 列印模型的預測結果
+    print(f"Model All Prediction: {predicted_class_All}, Probabilities: {probabilities_All}")
 
-        _, classification_C = model_C.predict(processed_image)
-        predicted_class_C = np.argmax(classification_C, axis=1)[0]
-        probabilities_C = [round(float(prob) * 100, 2) for prob in classification_C[0]]  # 轉換為百分比並保留兩位小數
-
-    # 列印模型 A、B、C 的預測結果
-    print(f"Model A Prediction: {predicted_class_A}, Probabilities: {probabilities_A}")
-    print(f"Model B Prediction: {predicted_class_B}, Probabilities: {probabilities_B}")
-    print(f"Model C Prediction: {predicted_class_C}, Probabilities: {probabilities_C}")
-
-    # 返回三個模型的預測結果和各類別百分比分佈
+    # 返回模型的預測結果和各類別百分比分佈
     return jsonify({
-        'classification_prediction_A': int(predicted_class_A),
-        'classification_probabilities_A': probabilities_A,
-        'classification_prediction_B': int(predicted_class_B),
-        'classification_probabilities_B': probabilities_B,
-        'classification_prediction_C': int(predicted_class_C),
-        'classification_probabilities_C': probabilities_C
+        'classification_prediction_All': int(predicted_class_All),
+        'classification_probabilities_All': probabilities_All
     })
 
 # 運行應用

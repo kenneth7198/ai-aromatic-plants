@@ -9,28 +9,21 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
   
-  // 使用 fetch 並行獲取三個描述 JSON
-  const fetchDescriptions = () => {
-    return Promise.all([
-      fetch('descriptionsA.json').then(response => response.json()),
-      fetch('descriptionsB.json').then(response => response.json()),
-      fetch('descriptionsC.json').then(response => response.json())
-    ]);
-  };
+  // 使用 fetch 獲取描述 JSON 和植物名稱 JSON
+  const fetchDescriptions = () => fetch('descriptions.json').then(response => response.json());
+  const fetchPlantNames = () => fetch('plants.json').then(response => response.json());
 
-  let descriptionsA = {};
-  let descriptionsB = {};
-  let descriptionsC = {};
-  
-  // 獲取描述數據
-  fetchDescriptions()
-    .then(([dataA, dataB, dataC]) => {
-      descriptionsA = dataA;
-      descriptionsB = dataB;
-      descriptionsC = dataC;
+  let descriptions = {};
+  let plantNames = {};
+
+  // 獲取描述數據和植物名稱
+  Promise.all([fetchDescriptions(), fetchPlantNames()])
+    .then(([dataDescriptions, dataPlants]) => {
+      descriptions = dataDescriptions;
+      plantNames = dataPlants;
     })
     .catch(error => {
-      console.error('Failed to load descriptions:', error);
+      console.error('Failed to load descriptions or plant names:', error);
     });
   
   form.addEventListener('submit', async (event) => {
@@ -58,16 +51,16 @@ document.addEventListener('DOMContentLoaded', () => {
       resultDiv.innerHTML = ''; // 清除之前的內容
 
       // 獲取嵌套在 prediction 屬性中的預測數據
-      const predictions = result.prediction;
+      const prediction = result.prediction;
 
-      // 顯示每個模型的預測結果和百分比
-      const displayModelResults = (modelName, prediction, probabilities, descriptions) => {
+      // 顯示模型的預測結果和百分比
+      const displayModelResults = (modelName, predictionClass, probabilities, descriptions) => {
         const container = document.createElement('div');
         container.classList.add('model-result');
 
         const header = document.createElement('p');
-        const description = descriptions[prediction] || "未知";
-        header.textContent = `${modelName}: 預測結果為 - 類別標籤： ${prediction} - ${description}`;
+        const description = descriptions[predictionClass] || "Unknown prediction";
+        header.textContent = `${modelName}: Prediction ${predictionClass} - ${description}`;
         container.appendChild(header);
 
         // 創建一個 Canvas 元素來繪製直條圖
@@ -75,10 +68,13 @@ document.addEventListener('DOMContentLoaded', () => {
           const canvas = document.createElement('canvas');
           container.appendChild(canvas);
 
+          // 使用植物名稱替換類別標籤
+          const labels = probabilities.map((_, index) => plantNames[index] || `Class ${index}`);
+
           new Chart(canvas, {
             type: 'bar',
             data: {
-              labels: probabilities.map((_, index) => `類別標籤： ${index}`), // 類別標籤
+              labels: labels, // 使用植物名稱標籤
               datasets: [{
                 label: 'Probability (%)',
                 data: probabilities,
@@ -91,41 +87,50 @@ document.addEventListener('DOMContentLoaded', () => {
               scales: {
                 y: {
                   beginAtZero: true,
-                  max: 100
+                  max: 120 // 將最大值設置為120%
                 }
               },
               plugins: {
                 legend: {
                   display: false
+                },
+                datalabels: {
+                  anchor: 'end',
+                  align: 'end',
+                  formatter: (value) => `${value}%`,  // 格式化顯示為百分比
+                  color: '#000',
+                  font: {
+                    weight: 'bold'
+                  }
                 }
               }
-            }
+            },
+            plugins: [ChartDataLabels]  // 啟用數據標籤插件
           });
         } else {
           const noData = document.createElement('p');
-          noData.textContent = '沒有預測的結果';
+          noData.textContent = 'No probability data available';
           container.appendChild(noData);
         }
 
         resultDiv.appendChild(container);
       };
 
-      // 顯示 Model A 的預測結果和百分比
-      displayModelResults("預測為 Model A", predictions.classification_prediction_A, predictions.classification_probabilities_A, descriptionsA);
-
-      // 顯示 Model B 的預測結果和百分比
-      displayModelResults("預測為 Model B", predictions.classification_prediction_B, predictions.classification_probabilities_B, descriptionsB);
-
-      // 顯示 Model C 的預測結果和百分比
-      displayModelResults("預測為 Model C", predictions.classification_prediction_C, predictions.classification_probabilities_C, descriptionsC);
+      // 顯示模型的預測結果和百分比
+      displayModelResults(
+        "Model Prediction",
+        prediction.classification_prediction_All,
+        prediction.classification_probabilities_All,
+        descriptions
+      );
 
       // 顯示上傳的圖片
-      // uploadedImageDiv.innerHTML = ''; // 清空之前的圖片
-      // const img = document.createElement('img');
-      // img.src = result.imageUrl;
-      // img.alt = 'Uploaded Image';
-      // img.style.maxWidth = '100%';
-      // uploadedImageDiv.appendChild(img);
+      uploadedImageDiv.innerHTML = ''; // 清空之前的圖片
+      const img = document.createElement('img');
+      img.src = result.imageUrl;
+      img.alt = 'Uploaded Image';
+      img.style.maxWidth = '100%';
+      uploadedImageDiv.appendChild(img);
       
     } catch (error) {
       console.error("Fetch error:", error);

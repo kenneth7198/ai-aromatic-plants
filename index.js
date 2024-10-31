@@ -17,6 +17,7 @@ app.use('/uploads', express.static('public/uploads'));
 app.get('/', (req, res) => {
   res.send(`
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
     <h1>AI香草辨識 - 請上傳圖片進行預測</h1>
     <form id="uploadForm" enctype="multipart/form-data">
       <input type="file" name="image" required>
@@ -27,6 +28,7 @@ app.get('/', (req, res) => {
     
     <!-- 引入外部 JavaScript 文件 -->
     <script src="script.js"></script>
+
 
   `);
 });
