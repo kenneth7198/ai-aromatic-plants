@@ -6,16 +6,32 @@
 ```
 pip install flask
 ```
-3. 切換目錄到\ai-aromatic-plants\backend\
-4. 啟動flask
+3. a.安裝PyTorch - 無GPU支援
+```
+pip install torch torchvision torchaudio 
+```
+### 
+#### a.有CUDA支援
+```
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+```
+#### b. 安裝支援CPU預設功能
+```
+pip install torch torchvision torchaudio
+```
+4. 安裝 einops
+```
+pip install einops
+```
+
+# 啟動&運行
+1. 切換目錄到\ai-aromatic-plants\backend\
+2. 啟動flask
 ```
 flask run
 ```
-5. 開啟瀏覽器，輸入http://127.0.0.1:5000，在local端確認有啟動即可
-6. 啟動前端，安裝node.js v20.18版本
-7. 
+3. 開啟瀏覽器，輸入http://127.0.0.1:5000，在local端確認有啟動即可
 
-
-# 啟動&運行
-1. 啟動Anaconda
-2. 
+# 安裝node.js啟動前端
+1. 啟動前端，安裝node.js v20.18版本
+ 
