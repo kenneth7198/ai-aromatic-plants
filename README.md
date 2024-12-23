@@ -1,16 +1,15 @@
 # ai-aromatic-plants
  
 # 環境設置
-1. 在Anaconda建構一個flask虛擬環境，並用python 3.9.20版
-2. 安裝Flask
+### 1. 在Anaconda建構一個flask虛擬環境，並用python 3.9.20版
+### 2. 安裝Flask
 ```
 pip install flask
 ```
-3. a.安裝PyTorch - 無GPU支援
+### 3. a.安裝PyTorch - 無GPU支援
 ```
 pip install torch torchvision torchaudio 
-```
-### 
+``` 
 #### a.有CUDA支援
 ```
 pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
@@ -19,7 +18,7 @@ pip install torch torchvision torchaudio --index-url https://download.pytorch.or
 ```
 pip install torch torchvision torchaudio
 ```
-4. 安裝 einops
+### 4. 安裝 einops
 ```
 pip install einops
 ```
