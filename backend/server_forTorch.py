@@ -13,11 +13,6 @@ from deformconv_snakeconv import DeformConv2d, DSConv_pro, get_coordinate_map_2D
 
 # 初始化 Flask 應用
 app = Flask(__name__, static_folder='uploads')
-UPLOAD_FOLDER = 'uploads'
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
-# 确保上传的目录存在
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 # 定义混合卷积网络结构
 class HybridConvNet(nn.Module):
@@ -86,26 +81,12 @@ def preprocess_image(image, target_size=(128, 128)):
 def home():
     return render_template('index.html')
 
-# 設置圖片路徑資料夾
 @app.route('/uploads/<path:filename>')
-def uploaded_file(filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+def serve_uploaded_file(filename):
+    return send_from_directory(app.static_folder, filename)
 
 # 設定預測路由
 @app.route('/predict', methods=['POST'])
-
-def upload_file():
-    if 'file' not in request.files:
-        return jsonify({'error': 'No file uploaded'}), 400
-
-    file = request.files['file']
-    if file.filename == '':
-        return jsonify({'error': 'No file selected'}), 400
-
-    filepath = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
-    file.save(filepath)
-    return jsonify({'imageUrl': f'/uploads/{file.filename}'})
-
 def predict():
     if 'file' not in request.files or 'model' not in request.form:
         return jsonify({'error': 'No file or model selected'}), 400
