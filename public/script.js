@@ -50,84 +50,25 @@ document.addEventListener('DOMContentLoaded', () => {
       // 清空結果區域
       resultDiv.innerHTML = ''; // 清除之前的內容
 
-      // 獲取嵌套在 prediction 屬性中的預測數據
+      // 獲取 prediction 資料
       const prediction = result.prediction;
 
-      // 顯示模型的預測結果和百分比
-      const displayModelResults = (modelName, predictionClass, probabilities, descriptions) => {
-        const container = document.createElement('div');
-        container.classList.add('model-result');
-
-        const header = document.createElement('p');
-        const description = descriptions[predictionClass] || "Unknown prediction";
-        header.textContent = `${modelName}: Prediction ${predictionClass} - ${description}`;
-        container.appendChild(header);
-
-        // 創建一個 Canvas 元素來繪製直條圖
-        if (Array.isArray(probabilities) && probabilities.length > 0) {
-          const canvas = document.createElement('canvas');
-          container.appendChild(canvas);
-
-          // 使用植物名稱替換類別標籤
-          const labels = probabilities.map((_, index) => plantNames[index] || `Class ${index}`);
-
-          new Chart(canvas, {
-            type: 'bar',
-            data: {
-              labels: labels, // 使用植物名稱標籤
-              datasets: [{
-                label: 'Probability (%)',
-                data: probabilities,
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1
-              }]
-            },
-            options: {
-              scales: {
-                y: {
-                  beginAtZero: true,
-                  max: 120 // 將最大值設置為120%
-                }
-              },
-              plugins: {
-                legend: {
-                  display: false
-                },
-                datalabels: {
-                  anchor: 'end',
-                  align: 'end',
-                  formatter: (value) => `${value}%`,  // 格式化顯示為百分比
-                  color: '#000',
-                  font: {
-                    weight: 'bold'
-                  }
-                }
-              }
-            },
-            plugins: [ChartDataLabels]  // 啟用數據標籤插件
-          });
-        } else {
-          const noData = document.createElement('p');
-          noData.textContent = 'No probability data available';
-          container.appendChild(noData);
-        }
-
-        resultDiv.appendChild(container);
-      };
-
-      // 顯示模型的預測結果和百分比
-      displayModelResults(
-        "Model Prediction",
-        prediction.classification_prediction_All,
-        prediction.classification_probabilities_All,
-        descriptions
-      );
+      if (prediction) {
+        displayModelResults(
+          prediction.model,
+          prediction.classification_prediction,
+          prediction.classification_probabilities,
+          descriptions
+        );
+      } else {
+        console.error('Prediction data is missing:', prediction);
+        resultDiv.textContent = 'Invalid prediction data received';
+      }
 
       // 顯示上傳的圖片
       uploadedImageDiv.innerHTML = ''; // 清空之前的圖片
       const img = document.createElement('img');
-      img.src = result.imageUrl;
+      img.src = `${window.location.origin}${result.imageUrl}`; // 拼接完整 URL
       img.alt = 'Uploaded Image';
       img.style.maxWidth = '100%';
       uploadedImageDiv.appendChild(img);
@@ -137,4 +78,68 @@ document.addEventListener('DOMContentLoaded', () => {
       resultDiv.textContent = 'Prediction failed: ' + error.message;
     }
   });
+
+  const displayModelResults = (modelName, predictionClass, probabilities, descriptions) => {
+    const container = document.createElement('div');
+    container.classList.add('model-result');
+  
+    const header = document.createElement('p');
+    const description = descriptions[predictionClass] || "Unknown prediction";
+    header.textContent = `${modelName}: Prediction ${predictionClass} - ${description}`;
+    container.appendChild(header);
+  
+    // 創建一個 Canvas 元素來繪製直條圖
+    if (Array.isArray(probabilities) && probabilities.length > 0) {
+      const canvas = document.createElement('canvas');
+      container.appendChild(canvas);
+  
+      // 使用植物名稱替換類別標籤
+      const labels = probabilities.map((_, index) => plantNames[index] || `Class ${index}`);
+  
+      new Chart(canvas, {
+        type: 'bar',
+        data: {
+          labels: labels, // 使用植物名稱標籤
+          datasets: [{
+            label: 'Probability (%)',
+            data: probabilities, // 直接使用後端返回的數據
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 100 // 確保最大值為 100%
+            }
+          },
+          plugins: {
+            legend: {
+              display: false
+            },
+            datalabels: {
+              anchor: 'end',
+              align: 'end',
+              formatter: (value) => `${value}%`,  // 格式化顯示為百分比
+              color: '#000',
+              font: {
+                weight: 'bold'
+              }
+            }
+          }
+        },
+        plugins: [ChartDataLabels]  // 啟用數據標籤插件
+      });
+    } else {
+      const noData = document.createElement('p');
+      noData.textContent = 'No probability data available';
+      container.appendChild(noData);
+    }
+  
+    resultDiv.appendChild(container);
+  };
+  
+  
 });

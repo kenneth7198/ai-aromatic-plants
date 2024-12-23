@@ -1,5 +1,6 @@
 import torch
 import torch.nn as nn
+import einops
 
 # 定義可變形卷積層
 class DeformConv2d(nn.Module):
@@ -177,7 +178,8 @@ def get_coordinate_map_2D(offset, morph, extend_scope=1.0, device="cuda"):
     batch_size, _, width, height = offset.shape
     kernel_size = offset.shape[1] // 2
     center = kernel_size // 2
-    device = torch.device(device)
+    # device = torch.device(device)
+    device = offset.device  # 自動獲取 offset 所在的設備
 
     y_offset_, x_offset_ = torch.split(offset, kernel_size, dim=1)
 
@@ -186,6 +188,8 @@ def get_coordinate_map_2D(offset, morph, extend_scope=1.0, device="cuda"):
 
     x_center_ = torch.arange(0, height, dtype=torch.float32, device=device)
     x_center_ = einops.repeat(x_center_, "h -> k w h", k=kernel_size, w=width)
+
+    
 
     if morph == 0:
         y_spread_ = torch.zeros([kernel_size], device=device)

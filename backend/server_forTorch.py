@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, send_from_directory
 from torch import nn, optim
 import torch
 import torch.nn.functional as F
@@ -6,14 +6,18 @@ from torchvision import transforms
 from torch.utils.data import DataLoader
 import numpy as np
 from PIL import Image
-import einops
 import os
 
 # 引入外部文件中的類別
-from deformconv_snakeconv import DeformConv2d, DSConv_pro
+from deformconv_snakeconv import DeformConv2d, DSConv_pro, get_coordinate_map_2D, get_interpolated_feature
 
 # 初始化 Flask 應用
-app = Flask(__name__)
+app = Flask(__name__, static_folder='uploads')
+UPLOAD_FOLDER = 'uploads'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+# 确保上传的目录存在
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 # 定义混合卷积网络结构
 class HybridConvNet(nn.Module):
@@ -82,24 +86,42 @@ def preprocess_image(image, target_size=(128, 128)):
 def home():
     return render_template('index.html')
 
+# 設置圖片路徑資料夾
+@app.route('/uploads/<path:filename>')
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+
 # 設定預測路由
 @app.route('/predict', methods=['POST'])
-def predict():
+
+def upload_file():
     if 'file' not in request.files:
-        return jsonify({'error': 'No file uploaded'})
+        return jsonify({'error': 'No file uploaded'}), 400
 
     file = request.files['file']
+    if file.filename == '':
+        return jsonify({'error': 'No file selected'}), 400
+
+    filepath = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+    file.save(filepath)
+    return jsonify({'imageUrl': f'/uploads/{file.filename}'})
+
+def predict():
+    if 'file' not in request.files or 'model' not in request.form:
+        return jsonify({'error': 'No file or model selected'}), 400
+
+    file = request.files['file']
+    model_type = request.form['model']  # 接收模型名稱
 
     if file.filename == '':
-        return jsonify({'error': 'No file selected'})
-
-    model_type = request.form.get('model', 'best_model')
-    if model_type not in models:
-        return jsonify({'error': f'Invalid model type. Available models: {list(models.keys())}'})
+        return jsonify({'error': 'No file selected'}), 400
 
     # 處理影像並進行預測
     image = Image.open(file)
     processed_image = preprocess_image(image)
+
+    if model_type not in models:
+        return jsonify({'error': f'Invalid model type: {model_type}'}), 400
 
     model = models[model_type]
     with torch.no_grad():
@@ -107,15 +129,13 @@ def predict():
     predicted_class = torch.argmax(output, dim=1).item()
     probabilities = torch.nn.functional.softmax(output, dim=1)[0].tolist()
 
-    # 列印模型的預測結果
-    print(f"Model: {model_type}, Prediction: {predicted_class}, Probabilities: {probabilities}")
-
     # 返回模型的預測結果和各類別百分比分佈
     return jsonify({
         'model': model_type,
         'classification_prediction': int(predicted_class),
         'classification_probabilities': [round(float(prob) * 100, 2) for prob in probabilities]
     })
+
 
 # 運行應用
 if __name__ == '__main__':

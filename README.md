@@ -29,5 +29,27 @@ flask run
 3. 開啟瀏覽器，輸入http://127.0.0.1:5000，在local端確認有啟動即可
 
 # 安裝node.js啟動前端
-1. 啟動前端，安裝node.js v20.18版本
- 
+1. 安裝node.js v20.18版本  https://nodejs.org/dist/v20.18.1/node-v20.18.1-x64.msi 
+2. 安裝nvm管理node.js的版本  https://github.com/coreybutler/nvm-windows/releases/download/1.1.12/nvm-setup.exe
+3. 確認node -v 目前電腦內安裝的版本
+```
+node -v
+```
+4. 用nvm確認已有的node.js
+```
+nvm list
+```
+5. 切換使用node版本
+```
+nvm use 20.18.0
+```
+教學說明：https://ithelp.ithome.com.tw/articles/10275647
+6. 安裝不同版本的node.js
+```
+nvm install v20.18.0
+```
+7. 執行前端互動介面
+```
+node index.js     //用來預測新版的模型版本
+node index2.js    // 原本用來預測tensorflow版本
+```
