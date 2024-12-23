@@ -15,10 +15,6 @@ b.有CUDA支援 ( 根據電腦是否有獨立顯示卡，若有財安裝cuda版�
 ```
 pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
 ```
-#### b. 安裝支援CPU預設功能
-```
-pip install torch torchvision torchaudio
-```
 ### 4. 安裝 einops
 ```
 pip install einops
