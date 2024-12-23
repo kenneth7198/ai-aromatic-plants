@@ -6,11 +6,12 @@
 ```
 pip install flask
 ```
-### 3. a.安裝PyTorch - 無GPU支援
+### 3.安裝PyTorch 
+a. 無GPU支援
 ```
 pip install torch torchvision torchaudio 
 ``` 
-#### a.有CUDA支援
+b.有CUDA支援 ( 根據電腦是否有獨立顯示卡，若有財安裝cuda版本torch )
 ```
 pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
 ```
