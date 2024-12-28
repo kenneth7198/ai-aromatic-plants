@@ -51,37 +51,25 @@ def upload_image():
         return jsonify({"error": "No image file found."}), 400
 
     image_file = request.files['image']
-
     try:
-        # Open the image file
-        image = Image.open(image_file).convert("RGB")
-
-        # Remove background
-        input_bytes = io.BytesIO()
-        image.save(input_bytes, format="PNG")
-        input_bytes.seek(0)
-
-        # Pass the PNG data to rembg
-        output_bytes = remove(input_bytes.getvalue())
-        image_no_bg = Image.open(io.BytesIO(output_bytes))
-
-        # Ensure rembg output is valid
-        if image_no_bg.mode != "RGBA":
-            image_no_bg = image_no_bg.convert("RGBA")
-
-        # Add white background
-        white_bg = Image.new("RGBA", image_no_bg.size, (255, 255, 255, 255))
-        image_with_bg = Image.alpha_composite(white_bg, image_no_bg).convert("RGB")
-
-        # Save to in-memory file
+        # Save uploaded image to an in-memory buffer
         buffer = io.BytesIO()
-        image_with_bg.save(buffer, format="PNG")
+        image_file.save(buffer)
         buffer.seek(0)
 
-        # Predict class
-        predicted_class_idx, confidence = predict_image(image_with_bg)
+        # Open image
+        image = Image.open(buffer).convert("RGB")
 
-        # Get the detailed description from JSON
+        # Predict class
+        inputs = processor(images=image, return_tensors="pt")
+
+        with torch.no_grad():
+            outputs = model(**inputs)
+            probabilities = torch.nn.functional.softmax(outputs.logits, dim=1)
+            predicted_class_idx = torch.argmax(probabilities, dim=1).item()
+            confidence = probabilities[0, predicted_class_idx].item()
+
+        # Get description from JSON
         prediction_data = prediction_descriptions.get(str(predicted_class_idx), None)
         if prediction_data:
             prediction_details = prediction_data[0]
@@ -90,32 +78,38 @@ def upload_image():
             scientific_name = prediction_details.get("Scientific Name", "Unknown")
             family = prediction_details.get("Family", "Unknown")
             family_tw = prediction_details.get("Family_TW", "Unknown")
-            image_path = prediction_details.get("image", "Unknown")
+            image_path = prediction_details.get("image", "./static/images/placeholder.png")  # Default placeholder
         else:
             prediction = "Unknown"
             description = "No description available."
             scientific_name = "Unknown"
             family = "Unknown"
             family_tw = "Unknown"
-            image_path = "Unknown"
+            image_path = "./static/images/placeholder.png"  # Default placeholder
 
-        # Encode image for rendering
-        image_base64 = base64.b64encode(buffer.getvalue()).decode('utf-8')
+        # Convert processed image to Base64
+        processed_buffer = io.BytesIO()
+        image.save(processed_buffer, format="PNG")
+        processed_buffer.seek(0)
+        image_base64 = base64.b64encode(processed_buffer.getvalue()).decode('utf-8')
 
+        # Render the result page
         return render_template(
-            'result.html', 
-            prediction=prediction, 
-            description=description, 
-            confidence=confidence, 
-            scientific_name=scientific_name, 
-            family=family, 
-            family_tw=family_tw, 
-            image_path=image_path, 
+            'result.html',
+            prediction=prediction,
+            name=prediction_details.get("Name", "Unknown"),
+            description=description,
+            confidence=confidence,
+            scientific_name=scientific_name,
+            family=family,
+            family_tw=family_tw,
+            image_path=image_path,
             image_data=image_base64
         )
 
     except Exception as e:
         return jsonify({"error": f"Image processing failed: {str(e)}"}), 500
+
 
 
 if __name__ == "__main__":

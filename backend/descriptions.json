@@ -8,8 +8,8 @@
           "Scientific Name": "Salvia officinalis",
           "Family": "Lamiaceae",
           "Family_TW": "脣形科",
-          "image": "XXXXXX.jpg"
-        },
+          "image": "./static/referenceImages/0.png"
+        }
     ],
     "1": [
         {
@@ -20,8 +20,8 @@
           "Scientific Name": "Salvia officinalis",
           "Family": "Lamiaceae",
           "Family_TW": "脣形科",
-          "image": "XXXXXX.jpg"
-        },
+          "image": "./static/referenceImages/1.png"
+        }
     ],
     "2": [
         {
@@ -32,8 +32,8 @@
           "Scientific Name": "Salvia officinalis",
           "Family": "Lamiaceae",
           "Family_TW": "脣形科",
-          "image": "XXXXXX.jpg"
-        },
+          "image": "./static/referenceImages/2.png"
+        }
     ],
     "3": [
         {
@@ -44,8 +44,8 @@
           "Scientific Name": "Salvia officinalis",
           "Family": "Lamiaceae",
           "Family_TW": "脣形科",
-          "image": "XXXXXX.jpg"
-        },
+          "image": "./static/referenceImages/3.png"
+        }
     ],
     "4": [
         {
@@ -56,8 +56,8 @@
           "Scientific Name": "Salvia officinalis",
           "Family": "Lamiaceae",
           "Family_TW": "脣形科",
-          "image": "XXXXXX.jpg"
-        },
+          "image": "./static/referenceImages/4.png"
+        }
     ], 
     "5": [
         {
@@ -68,8 +68,8 @@
           "Scientific Name": "Salvia officinalis",
           "Family": "Lamiaceae",
           "Family_TW": "脣形科",
-          "image": "XXXXXX.jpg"
-        },
+          "image": "./static/referenceImages/5.png"
+        }
     ], 
     "6": [
         {
@@ -80,8 +80,8 @@
           "Scientific Name": "Salvia officinalis",
           "Family": "Lamiaceae",
           "Family_TW": "脣形科",
-          "image": "XXXXXX.jpg"
-        },
+          "image": "./static/referenceImages/6.png"
+        }
     ], 
     "7": [
         {
@@ -92,8 +92,8 @@
           "Scientific Name": "Salvia officinalis",
           "Family": "Lamiaceae",
           "Family_TW": "脣形科",
-          "image": "XXXXXX.jpg"
-        },
+          "image": "./static/referenceImages/7.png"
+        }
     ], 
     "8": [
         {
@@ -104,8 +104,8 @@
           "Scientific Name": "Salvia officinalis",
           "Family": "Lamiaceae",
           "Family_TW": "脣形科",
-          "image": "XXXXXX.jpg"
-        },
+          "image": "./static/referenceImages/8.png"
+        }
     ], 
     "9": [
         {
@@ -116,8 +116,8 @@
           "Scientific Name": "Salvia officinalis",
           "Family": "Lamiaceae",
           "Family_TW": "脣形科",
-          "image": "XXXXXX.jpg"
-        },
+          "image": "./static/referenceImages/9.png"
+        }
     ], 
     "10": [
         {
@@ -128,8 +128,8 @@
           "Scientific Name": "Salvia officinalis",
           "Family": "Lamiaceae",
           "Family_TW": "脣形科",
-          "image": "XXXXXX.jpg"
-        },
+          "image": "./static/referenceImages/10.png"
+        }
     ], 
     "11": [
         {
@@ -140,8 +140,8 @@
           "Scientific Name": "Salvia officinalis",
           "Family": "Lamiaceae",
           "Family_TW": "脣形科",
-          "image": "XXXXXX.jpg"
-        },
+          "image": "./static/referenceImages/11.png"
+        }
     ], 
     "12": [
         {
@@ -152,8 +152,8 @@
           "Scientific Name": "Salvia officinalis",
           "Family": "Lamiaceae",
           "Family_TW": "脣形科",
-          "image": "XXXXXX.jpg"
-        },
+          "image": "./static/referenceImages/12.png"
+        }
     ], 
     "13": [
         {
@@ -164,8 +164,8 @@
           "Scientific Name": "Salvia officinalis",
           "Family": "Lamiaceae",
           "Family_TW": "脣形科",
-          "image": "XXXXXX.jpg"
-        },
+          "image": "./static/referenceImages/13.png"
+        }
     ], 
     "14": [
         {
@@ -176,8 +176,8 @@
           "Scientific Name": "Salvia officinalis",
           "Family": "Lamiaceae",
           "Family_TW": "脣形科",
-          "image": "XXXXXX.jpg"
-        },
+          "image": "./static/referenceImages/14.png"
+        }
     ], 
     "15": [
         {
@@ -188,8 +188,8 @@
           "Scientific Name": "Salvia officinalis",
           "Family": "Lamiaceae",
           "Family_TW": "脣形科",
-          "image": "XXXXXX.jpg"
-        },
+          "image": "./static/referenceImages/15.png"
+        }
     ], 
     "16": [
         {
@@ -200,8 +200,8 @@
           "Scientific Name": "Salvia officinalis",
           "Family": "Lamiaceae",
           "Family_TW": "脣形科",
-          "image": "XXXXXX.jpg"
-        },
+          "image": "./static/referenceImages/16.png"
+        }
     ], 
     "17": [
         {
@@ -212,8 +212,8 @@
           "Scientific Name": "Salvia officinalis",
           "Family": "Lamiaceae",
           "Family_TW": "脣形科",
-          "image": "XXXXXX.jpg"
-        },
+          "image": "./static/referenceImages/17.png"
+        }
     ], 
     "18": [
         {
@@ -224,8 +224,8 @@
           "Scientific Name": "Salvia officinalis",
           "Family": "Lamiaceae",
           "Family_TW": "脣形科",
-          "image": "XXXXXX.jpg"
-        },
+          "image": "./static/referenceImages/18.png"
+        }
     ], 
     "19": [
         {
@@ -236,8 +236,8 @@
           "Scientific Name": "Salvia officinalis",
           "Family": "Lamiaceae",
           "Family_TW": "脣形科",
-          "image": "XXXXXX.jpg"
-        },
+          "image": "./static/referenceImages/19.png"
+        }
     ], 
     "20": [
         {
@@ -248,8 +248,8 @@
           "Scientific Name": "Salvia officinalis",
           "Family": "Lamiaceae",
           "Family_TW": "脣形科",
-          "image": "XXXXXX.jpg"
-        },
+          "image": "./static/referenceImages/20.png"
+        }
     ], 
     "21": [
         {
@@ -260,8 +260,8 @@
           "Scientific Name": "Salvia officinalis",
           "Family": "Lamiaceae",
           "Family_TW": "脣形科",
-          "image": "XXXXXX.jpg"
-        },
+          "image": "./static/referenceImages/21.png"
+        }
     ], 
     "22": [
         {
@@ -272,8 +272,8 @@
           "Scientific Name": "Salvia officinalis",
           "Family": "Lamiaceae",
           "Family_TW": "脣形科",
-          "image": "XXXXXX.jpg"
-        },
-    ],     
+          "image": "./static/referenceImages/22.png"
+        }
+    ]     
 }
 

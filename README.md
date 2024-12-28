@@ -1,6 +1,6 @@
 # ai-aromatic-plants
  
-# 環境設置
+# 後端-環境設置
 ### 1. 在Anaconda建構一個flask虛擬環境，並用python 3.9.20版
 ### 2. 安裝Flask
 ```
@@ -33,7 +33,7 @@ pip install Pillow numpy
 ```
 pip install onnxruntime-gpu
 ```
-### 使用CPU進行加速
+#### 使用CPU進行加速
 ``` 
 pip install onnxruntime
 
@@ -46,7 +46,7 @@ pip install onnxruntime
 1. 切換目錄到\ai-aromatic-plants\backend\
 2. 啟動flask
 ```
-flask run
+python server_forViT.py
 ```
 3. 開啟瀏覽器，輸入http://127.0.0.1:5000，在local端確認有啟動即可
 
@@ -74,4 +74,18 @@ nvm install v20.18.0
 ```
 node index.js     //用來預測新版的模型版本
 node index2.js    // 原本用來預測tensorflow版本
+```
+
+
+# 測試模型用環境建置
+在Anaconda建構一個testBed_forViT虛擬環境，並用python 3.12.x版
+
+## 安裝Jupyter
+```
+pip install
+```
+
+# 安裝 Jupyter Notebook
+```
+pip install notebook
 ```

@@ -8,10 +8,17 @@
 <body>
     <h1>Image Processing Result</h1>
     <p><strong>Prediction:</strong> {{ prediction }}</p>
+    <p><strong>Name:</strong> {{ name }}</p>
     <p><strong>Description:</strong> {{ description }}</p>
+    <p><strong>Scientific Name:</strong> {{ scientific_name }}</p>
+    <p><strong>Family:</strong> {{ family }}</p>
+    <p><strong>Family (TW):</strong> {{ family_tw }}</p>
     <p><strong>Confidence:</strong> {{ confidence }}</p>
     <h2>Processed Image:</h2>
-    <img src="data:image/png;base64,{{ image_data }}" alt="Processed Image">
+    <img src="data:image/png;base64,{{ image_data }}" alt="Processed Image"  style="height: 150px;">
+    <br>
+    <h2>Reference Image:</h2>
+    <img src="{{ image_path }}" alt="Reference Image"  style="height: 150px;" >
     <br>
     <a href="/">Upload Another Image</a>
 </body>
