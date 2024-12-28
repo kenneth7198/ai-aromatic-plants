@@ -1,0 +1,279 @@
+{
+    "0": [
+        {
+          "prediction": "0",
+          "No.": "A-01_",
+          "Name": "鼠尾草"
+          "description": "鼠尾草是一種植物，具有芳香特性，常用於香料和草藥。",
+          "Scientific Name": "Salvia officinalis",
+          "Family": "Lamiaceae",
+          "Family_TW": "脣形科",
+          "image": "XXXXXX.jpg"
+        },
+    ],
+    "1": [
+        {
+          "prediction": "1",
+          "No.": "A-02_",
+          "Name": "芸香"
+          "description": "芸香是一種植物，具有藥用價值，適合種植於溫暖地區。",
+          "Scientific Name": "Salvia officinalis",
+          "Family": "Lamiaceae",
+          "Family_TW": "脣形科",
+          "image": "XXXXXX.jpg"
+        },
+    ],
+    "2": [
+        {
+          "prediction": "2",
+          "No.": "A-03_",
+          "Name": "甜薰衣草"
+          "description": "甜薰衣草是一種芳香植物，常用於精油和香氛產品。",
+          "Scientific Name": "Salvia officinalis",
+          "Family": "Lamiaceae",
+          "Family_TW": "脣形科",
+          "image": "XXXXXX.jpg"
+        },
+    ],
+    "3": [
+        {
+          "prediction": "3",
+          "No.": "A-04_",
+          "Name": "艾草"
+          "description": "艾草是一種草本植物，具有驅蟲和藥用特性。",
+          "Scientific Name": "Salvia officinalis",
+          "Family": "Lamiaceae",
+          "Family_TW": "脣形科",
+          "image": "XXXXXX.jpg"
+        },
+    ],
+    "4": [
+        {
+          "prediction": "4",
+          "No.": "A-05_",
+          "Name": "檸檬百里香"
+          "description": "檸檬百里香是一種芳香植物，帶有檸檬香味。",
+          "Scientific Name": "Salvia officinalis",
+          "Family": "Lamiaceae",
+          "Family_TW": "脣形科",
+          "image": "XXXXXX.jpg"
+        },
+    ], 
+    "5": [
+        {
+          "prediction": "5",
+          "No.": "A-06_",
+          "Name": "冰淇淋蘭香草"
+          "description": "冰淇淋蘭香草是一種清香植物，適合製作甜品。",
+          "Scientific Name": "Salvia officinalis",
+          "Family": "Lamiaceae",
+          "Family_TW": "脣形科",
+          "image": "XXXXXX.jpg"
+        },
+    ], 
+    "6": [
+        {
+          "prediction": "6",
+          "No.": "A-07_",
+          "Name": "檸檬馬鞭草"
+          "description": "檸檬馬鞭草是一種芳香植物，用於草本茶和精油。",
+          "Scientific Name": "Salvia officinalis",
+          "Family": "Lamiaceae",
+          "Family_TW": "脣形科",
+          "image": "XXXXXX.jpg"
+        },
+    ], 
+    "7": [
+        {
+          "prediction": "7",
+          "No.": "A-08_",
+          "Name": "香萬壽菊"
+          "description": "芳香萬壽菊是一種具有抗菌特性的植物。",
+          "Scientific Name": "Salvia officinalis",
+          "Family": "Lamiaceae",
+          "Family_TW": "脣形科",
+          "image": "XXXXXX.jpg"
+        },
+    ], 
+    "8": [
+        {
+          "prediction": "8",
+          "No.": "A-09_",
+          "Name": "紫蘇"
+          "description": "紫蘇是一種常用於亞洲烹飪的植物。",
+          "Scientific Name": "Salvia officinalis",
+          "Family": "Lamiaceae",
+          "Family_TW": "脣形科",
+          "image": "XXXXXX.jpg"
+        },
+    ], 
+    "9": [
+        {
+          "prediction": "9",
+          "No.": "A-10_",
+          "Name": "小葉左手香"
+          "description": "小葉左手香是一種芳香植物，具有藥用價值。",
+          "Scientific Name": "Salvia officinalis",
+          "Family": "Lamiaceae",
+          "Family_TW": "脣形科",
+          "image": "XXXXXX.jpg"
+        },
+    ], 
+    "10": [
+        {
+          "prediction": "10",
+          "No.": "A-11_",
+          "Name": "白斑左手香"
+          "description": "白斑左手香是一種觀賞植物，適合庭院種植。",
+          "Scientific Name": "Salvia officinalis",
+          "Family": "Lamiaceae",
+          "Family_TW": "脣形科",
+          "image": "XXXXXX.jpg"
+        },
+    ], 
+    "11": [
+        {
+          "prediction": "11",
+          "No.": "A-12_",
+          "Name": "大葉左手香"
+          "description": "大葉左手香是一種帶有檸檬香氣的植物。",
+          "Scientific Name": "Salvia officinalis",
+          "Family": "Lamiaceae",
+          "Family_TW": "脣形科",
+          "image": "XXXXXX.jpg"
+        },
+    ], 
+    "12": [
+        {
+          "prediction": "12",
+          "No.": "A-13_",
+          "Name": "金錢薄荷"
+          "description": "金錢薄荷是一種具有驅蚊效果的植物。",
+          "Scientific Name": "Salvia officinalis",
+          "Family": "Lamiaceae",
+          "Family_TW": "脣形科",
+          "image": "XXXXXX.jpg"
+        },
+    ], 
+    "13": [
+        {
+          "prediction": "13",
+          "No.": "A-14_",
+          "Name": "防蚊草"
+          "description": "防蚊草是一種有效驅蚊的芳香植物。",
+          "Scientific Name": "Salvia officinalis",
+          "Family": "Lamiaceae",
+          "Family_TW": "脣形科",
+          "image": "XXXXXX.jpg"
+        },
+    ], 
+    "14": [
+        {
+          "prediction": "14",
+          "No.": "A-15_",
+          "Name": "迷迭香"
+          "description": "迷迭香是一種植物，具有藥用價值，適合種植於溫暖地區。",
+          "Scientific Name": "Salvia officinalis",
+          "Family": "Lamiaceae",
+          "Family_TW": "脣形科",
+          "image": "XXXXXX.jpg"
+        },
+    ], 
+    "15": [
+        {
+          "prediction": "15",
+          "No.": "B-01_",
+          "Name": "九層塔"
+          "description": "九層塔是一種亞洲常見的香草植物。",
+          "Scientific Name": "Salvia officinalis",
+          "Family": "Lamiaceae",
+          "Family_TW": "脣形科",
+          "image": "XXXXXX.jpg"
+        },
+    ], 
+    "16": [
+        {
+          "prediction": "16",
+          "No.": "B-01_",
+          "Name": "甜羅勒"
+          "description": "甜羅勒是一種用於西式料理的香草植物",
+          "Scientific Name": "Salvia officinalis",
+          "Family": "Lamiaceae",
+          "Family_TW": "脣形科",
+          "image": "XXXXXX.jpg"
+        },
+    ], 
+    "17": [
+        {
+          "prediction": "17",
+          "No.": "B-03_",
+          "Name": "甜薄荷"
+          "description": "甜薄荷是一種具有清涼效果的植物。",
+          "Scientific Name": "Salvia officinalis",
+          "Family": "Lamiaceae",
+          "Family_TW": "脣形科",
+          "image": "XXXXXX.jpg"
+        },
+    ], 
+    "18": [
+        {
+          "prediction": "18",
+          "No.": "B-04_",
+          "Name": "巧克力薄荷"
+          "description": "巧克力薄荷是一種帶有巧克力香氣的薄荷品種。",
+          "Scientific Name": "Salvia officinalis",
+          "Family": "Lamiaceae",
+          "Family_TW": "脣形科",
+          "image": "XXXXXX.jpg"
+        },
+    ], 
+    "19": [
+        {
+          "prediction": "19",
+          "No.": "B-05_",
+          "Name": "奧勒岡"
+          "description": "奧勒岡是一種適合披薩和意大利菜的香草。",
+          "Scientific Name": "Salvia officinalis",
+          "Family": "Lamiaceae",
+          "Family_TW": "脣形科",
+          "image": "XXXXXX.jpg"
+        },
+    ], 
+    "20": [
+        {
+          "prediction": "20",
+          "No.": "C-01_",
+          "Name": "綠薄荷"
+          "description": "綠薄荷是一種清涼芳香的植物，適合泡茶。",
+          "Scientific Name": "Salvia officinalis",
+          "Family": "Lamiaceae",
+          "Family_TW": "脣形科",
+          "image": "XXXXXX.jpg"
+        },
+    ], 
+    "21": [
+        {
+          "prediction": "21",
+          "No.": "C-02_",
+          "Name": "香蜂草"
+          "description": "香蜂草是一種用於鎮靜和助眠的植物。",
+          "Scientific Name": "Salvia officinalis",
+          "Family": "Lamiaceae",
+          "Family_TW": "脣形科",
+          "image": "XXXXXX.jpg"
+        },
+    ], 
+    "22": [
+        {
+          "prediction": "22",
+          "No.": "C-03_",
+          "Name": "貓薄荷"
+          "description": "貓薄荷是一種吸引貓科動物的植物。",
+          "Scientific Name": "Salvia officinalis",
+          "Family": "Lamiaceae",
+          "Family_TW": "脣形科",
+          "image": "XXXXXX.jpg"
+        },
+    ],     
+}
+

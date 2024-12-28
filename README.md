@@ -19,6 +19,28 @@ pip install torch torchvision torchaudio --index-url https://download.pytorch.or
 ```
 pip install einops
 ```
+<<<<<<< HEAD
+### 5. 安裝 transformer
+```
+pip install transformers
+```
+### 6. 安裝必要套件
+```
+pip install rembg
+pip install Pillow numpy
+```
+### 7. 安裝GPU支援的ONNX Runtime 或GPU支援cuDNN與Nvdia CUDA Toolkit
+#### 使用GPU進行加速
+```
+pip install onnxruntime-gpu
+```
+### 使用CPU進行加速
+``` 
+pip install onnxruntime
+
+```
+=======
+>>>>>>> parent of 05686ef (調整增加ViT 的前端AI)
 
 # 啟動&運行
 1. 切換目錄到\ai-aromatic-plants\backend\
