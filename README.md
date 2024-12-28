@@ -19,7 +19,6 @@ pip install torch torchvision torchaudio --index-url https://download.pytorch.or
 ```
 pip install einops
 ```
-<<<<<<< HEAD
 ### 5. 安裝 transformer
 ```
 pip install transformers
@@ -39,8 +38,9 @@ pip install onnxruntime-gpu
 pip install onnxruntime
 
 ```
-=======
->>>>>>> parent of 05686ef (調整增加ViT 的前端AI)
+### 下載預訓練好的模型到backend/model/ViT-plant-classifier/
+* https://drive.google.com/drive/folders/1vRxy3Af2KyyhdSRwSTa10_wzQ8ja7j0B?usp=sharing
+
 
 # 啟動&運行
 1. 切換目錄到\ai-aromatic-plants\backend\

@@ -22,7 +22,7 @@ description_file_path = "descriptions.json"
 with open(description_file_path, "r", encoding="utf-8") as f:
     prediction_descriptions = json.load(f)
 
-
+# 測試圖片輸入至模型後回傳預測結果
 def predict_image(image):
     """Predict the class of the given image."""
     inputs = processor(images=image, return_tensors="pt")
@@ -37,11 +37,13 @@ def predict_image(image):
 
     return predicted_class_idx, confidence
 
+
 @app.route('/')
 def index():
     """Render the upload page."""
     return render_template('upload.html')
 
+# 上傳到模型進行預測
 @app.route('/upload', methods=['POST'])
 def upload_image():
     """Endpoint for image upload and processing."""
@@ -79,18 +81,41 @@ def upload_image():
         # Predict class
         predicted_class_idx, confidence = predict_image(image_with_bg)
 
-        # Get the description from JSON
-        prediction = prediction_descriptions.get(str(predicted_class_idx), "Unknown class")
-        description = f"The predicted plant is {prediction}."
+        # Get the detailed description from JSON
+        prediction_data = prediction_descriptions.get(str(predicted_class_idx), None)
+        if prediction_data:
+            prediction_details = prediction_data[0]
+            prediction = prediction_details.get("No.", "Unknown") + prediction_details.get("Name", "Unknown")
+            description = prediction_details.get("description", "No description available.")
+            scientific_name = prediction_details.get("Scientific Name", "Unknown")
+            family = prediction_details.get("Family", "Unknown")
+            family_tw = prediction_details.get("Family_TW", "Unknown")
+            image_path = prediction_details.get("image", "Unknown")
+        else:
+            prediction = "Unknown"
+            description = "No description available."
+            scientific_name = "Unknown"
+            family = "Unknown"
+            family_tw = "Unknown"
+            image_path = "Unknown"
 
         # Encode image for rendering
         image_base64 = base64.b64encode(buffer.getvalue()).decode('utf-8')
 
-        return render_template('result.html', prediction=prediction, description=description, confidence=confidence, image_data=image_base64)
+        return render_template(
+            'result.html', 
+            prediction=prediction, 
+            description=description, 
+            confidence=confidence, 
+            scientific_name=scientific_name, 
+            family=family, 
+            family_tw=family_tw, 
+            image_path=image_path, 
+            image_data=image_base64
+        )
 
     except Exception as e:
         return jsonify({"error": f"Image processing failed: {str(e)}"}), 500
-
 
 
 if __name__ == "__main__":
