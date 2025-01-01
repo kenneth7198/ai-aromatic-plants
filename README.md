@@ -77,10 +77,15 @@ node index2.js    // 原本用來預測tensorflow版本
 ```
 
 
-# 測試模型用環境建置
+# 測試模型用環境建置-Anaconda
 在Anaconda建構一個testBed_forViT虛擬環境，並用python 3.12.x版
-
-## 安裝Jupyter
+## 使用python開發
+### 安裝必要工具與套件
+```
+pip install -r requirements.txt
+```
+## 使用Jupyter開發
+### 安裝Jupyter
 ```
 pip install
 ```
@@ -89,3 +94,13 @@ pip install
 ```
 pip install notebook
 ```
+
+# 安裝cuda -> cu118
+https://stevehublog.medium.com/%E4%B8%80%E6%AD%A5%E4%B8%80%E6%AD%A5%E6%95%99%E6%82%A8%E5%9C%A8windows%E4%B8%8A%E5%AE%89%E8%A3%9Dpytorch%E8%88%87nvidia-cuda-a369eb88ee58
+
+## 安裝有cuda的 torch + cuda 11.8
+```
+pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+```
+## 安裝 CUDA Toolkit 11.8 for windows
+https://developer.nvidia.com/cuda-11-8-0-download-archive
