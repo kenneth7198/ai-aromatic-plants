@@ -95,6 +95,9 @@ pip install
 pip install notebook
 ```
 
+# 建構基本的Pytorch for Nvdia GPU
+安裝 python 3.8 ~ 3.11
+
 # 安裝cuda -> cu118
 https://stevehublog.medium.com/%E4%B8%80%E6%AD%A5%E4%B8%80%E6%AD%A5%E6%95%99%E6%82%A8%E5%9C%A8windows%E4%B8%8A%E5%AE%89%E8%A3%9Dpytorch%E8%88%87nvidia-cuda-a369eb88ee58
 

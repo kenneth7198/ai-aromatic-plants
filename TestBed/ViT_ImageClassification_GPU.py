@@ -58,7 +58,7 @@ label_All_C = {
 
 # 加載第一個模型和處理器
 current_model_index = 0
-model = ViTForImageClassification.from_pretrained(model_paths[current_model_index])
+model = ViTForImageClassification.from_pretrained(model_paths[current_model_index]).to(device)
 processor = AutoProcessor.from_pretrained(model_paths[current_model_index], use_fast=True)
 
 # 測試資料集路徑
@@ -70,7 +70,7 @@ test_dir = "./data/3W-repeat-testImage"  #3萬張重複40次
 model = ViTForImageClassification.from_pretrained(
     model_paths[current_model_index],
     ignore_mismatched_sizes=True
-)
+).to(device)
 
 # 驗證模型
 print(model.classifier)
@@ -89,19 +89,17 @@ num_classes = 23  # 確保模型輸出與實際類別數匹配
 def predict_image(image_path):
     # 加載並轉換圖片為 RGB
     image = Image.open(image_path).convert("RGB")
-    inputs = processor(images=image, return_tensors="pt")
+    inputs = processor(images=image, return_tensors="pt").to(device)
 
     # 禁用梯度計算進行預測
     with torch.no_grad():
         outputs = model(**inputs)
         probabilities = torch.nn.functional.softmax(outputs.logits, dim=1)
 
-        # 獲取預測類別和信心值
-        predicted_class_idx = torch.argmax(probabilities, dim=1).item()
-        confidence = probabilities[0, predicted_class_idx].item()
-
-        # 確保概率分佈只有 num_classes 類別
-        all_probabilities = probabilities.squeeze().tolist()[:num_classes]
+        # GPU計算
+        all_probabilities = probabilities.squeeze().tolist()
+        confidence = max(all_probabilities)
+        predicted_class_idx = all_probabilities.index(confidence)
 
     return predicted_class_idx, confidence, all_probabilities
 
@@ -119,7 +117,7 @@ for filename in os.listdir(test_dir):
                 model = ViTForImageClassification.from_pretrained(
                     model_paths[current_model_index],
                     ignore_mismatched_sizes=True
-                )
+                ).to(device)
                 processor = AutoProcessor.from_pretrained(model_paths[current_model_index], use_fast=True)
 
             # 根據模型選擇對應的標籤
