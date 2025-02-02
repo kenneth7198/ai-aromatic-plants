@@ -64,7 +64,8 @@ processor = AutoProcessor.from_pretrained(model_paths[current_model_index], use_
 # 測試資料集路徑
 # test_dir = "./data/750-testImage/"   #測試750張
 # test_dir = "./data/miniTestImage/"  #迷你測試23種植物
-test_dir = "./data/3W-repeat-testImage"  #3萬張重複40次
+# test_dir = "./data/3W-repeat-testImage"  #3萬張重複40次
+test_dir = "./data/W-test"  #測試只有但一品種
 
 # 忽略大小不匹配加載模型
 model = ViTForImageClassification.from_pretrained(
